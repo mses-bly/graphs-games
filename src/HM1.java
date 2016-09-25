@@ -25,10 +25,14 @@ public class HM1 {
 	}
 
 	public void appendToFile(int i, int j, double d) {
-		if(d >= 0)
-			out.printf("[%2d,%2d]  ->   %.6f\n", i, j, d);
+		if (d >= 0)
+			out.printf("[%4d,%4d]  ->   %.6f\n", i, j, d);
 		else
-			out.printf("[%2d,%2d]  ->  %.6f\n", i, j, d);
+			out.printf("[%4d,%4d]  ->  %.6f\n", i, j, d);
+	}
+
+	public void appendToFile(double i, double j) {
+		out.printf("%.6f, %.6f\n", i, j);
 	}
 
 	public void close() {
@@ -70,16 +74,25 @@ public class HM1 {
 		return acc / times;
 	}
 
-//	public double runC() {
+	public void runD() {
+		double p = 0;
+		while (p <= 0.5) {
+			Graph g = connectWithP(1000, p);
+			double avg = avgShortestPath(g, 10000, false);
+			appendToFile(p, avg);
+			p += 0.01;
+		}
+	}
 
-//	}
+	public double runC() {
+		Graph g = connectWithP(1000, 0.1);
+		return avgShortestPath(g, 30000, true);
+	}
 
 
 	public static void main(String[] args) {
-		HM1 hm1 = new HM1("c.txt");
-		Graph g = hm1.connectWithP(20, 0.1);
-		g.print();
-		hm1.avgShortestPath(g, 10, true);
+		HM1 hm1 = new HM1("outD.txt");
+		hm1.runD();
 		hm1.close();
 	}
 }
