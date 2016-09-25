@@ -63,7 +63,11 @@ public class Graph {
 		boolean[] visited = new boolean[N];
 		for (int k = 0; k < N; k++) {
 			double dist = _bfs(i, j, visited);
+//			for (int m = 0; m < N; m++) {
+//				System.out.print(visited[m] + " ");
+//			}
 			if (dist != -1) return dist;
+//			System.out.println();
 		}
 		return -1;
 	}
@@ -79,9 +83,9 @@ public class Graph {
 			for (Node n : adjacents(x)) {
 				if (!visited[n.ID]) {
 					distances[n.ID] += (distances[x] + n.w);
+					visited[n.ID] = true;
 					if (n.ID == j) return distances[n.ID];
 					q.add(n.ID);
-					visited[n.ID] = true;
 				}
 			}
 		}
@@ -120,14 +124,15 @@ public class Graph {
 		g.connect(3, 5, 1);
 		g.connect(4, 5, 1);
 		g.connect(5, 4, 1);
-		g.connect(5, 7, 1);
+		g.connect(6, 7, 1);
 
-		System.out.println(g.bfs(0, 1));
-		System.out.println(g.bfs(0, 2));
-		System.out.println(g.bfs(0, 6));
-		System.out.println(g.bfs(5, 6));
-		System.out.println(g.bfs(3, 1));
-		System.out.println(g.bfs(1, 7));
-		System.out.println(g.bfs(2, 7));
+//		System.out.println(g.bfs(0, 1));
+//		System.out.println(g.bfs(0, 2));
+//		System.out.println(g.bfs(0, 6));
+		System.out.println(g.bfs(6, 7));
+//		System.out.println(g.bfs(3, 1));
+//		System.out.println(g.bfs(1, 7));
+//		System.out.println(g.bfs(2, 7));
+//		System.out.println(g.bfs(2, 7));
 	}
 }
