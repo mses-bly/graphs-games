@@ -76,7 +76,7 @@ public class HM1 {
 
 	public void runD() {
 		double p = 0;
-		while (p <= 0.5) {
+		while (p <= 1) {
 			Graph g = connectWithP(1000, p);
 			double avg = avgShortestPath(g, 10000, false);
 			appendToFile(p, avg);
