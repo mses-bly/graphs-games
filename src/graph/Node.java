@@ -1,3 +1,5 @@
+package graph;
+
 /**
  * Defines a node in the graph.
  */

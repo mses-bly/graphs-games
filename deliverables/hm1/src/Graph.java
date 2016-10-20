@@ -20,7 +20,7 @@ public class Graph {
 	}
 
 	/**
-	 * Return the nodes adjacent to Node i
+	 * Return the nodes adjacent to graph.Node i
 	 *
 	 * @param i
 	 * @return

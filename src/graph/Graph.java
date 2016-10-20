@@ -1,3 +1,5 @@
+package graph;
+
 import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.Queue;
@@ -20,7 +22,7 @@ public class Graph {
 	}
 
 	/**
-	 * Return the nodes adjacent to Node i
+	 * Return the nodes adjacent to graph.Node i
 	 *
 	 * @param i
 	 * @return
@@ -59,17 +61,19 @@ public class Graph {
 	}
 
 
-	public double bfs(int i, int j) {
+	public Path bfs(int i, int j) {
 		boolean[] visited = new boolean[N];
 		for (int k = 0; k < N; k++) {
-			double dist = _bfs(i, j, visited);
-			if (dist != -1) return dist;
+			Path path = _bfs(i, j, visited);
+			if (path != null) return path;
 		}
-		return -1;
+		return null;
 	}
 
-	private double _bfs(int i, int j, boolean[] visited) {
-		if (i == j) return 0;
+	private Path _bfs(int i, int j, boolean[] visited) {
+		Path path = new Path();
+		path.addToPath(i, i);
+		if (i == j) return path;
 		Queue<Integer> q = new LinkedList<>();
 		double[] distances = new double[N];
 		q.add(i);
@@ -80,18 +84,21 @@ public class Graph {
 				if (!visited[n.ID]) {
 					distances[n.ID] += (distances[x] + n.w);
 					visited[n.ID] = true;
-					if (n.ID == j) return distances[n.ID];
+					path.addToPath(x, n.ID);
+					if (n.ID == j) {
+						path.distance = distances[n.ID];
+						return path;
+					}
 					q.add(n.ID);
 				}
 			}
 		}
-		return -1;
+		return path;
 	}
 
 	public int size() {
 		return N;
 	}
-
 
 	private String printAdj(int i) {
 		ArrayList<Node> adj = adjacents(i);

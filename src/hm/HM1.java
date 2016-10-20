@@ -1,3 +1,7 @@
+package hm;
+
+import graph.Graph;
+
 import java.io.BufferedWriter;
 import java.io.FileWriter;
 import java.io.IOException;
@@ -62,7 +66,7 @@ public class HM1 {
 		for (int t = 0; t < times; t++) {
 			int i = r.nextInt(N);
 			int j = r.nextInt(N);
-			double d = g.bfs(i, j);
+			double d = g.bfs(i, j).distance;
 			if (debug) {
 				appendToFile(i, j, d);
 			}
