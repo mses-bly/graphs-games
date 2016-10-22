@@ -1,7 +1,8 @@
 package hm;
 
 import graph.Graph;
-import utils.Utils;
+import graph.GraphOps;
+import graph.Path;
 
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -20,7 +21,7 @@ public class HM2 {
 		while (sc.hasNext()) {
 			int s = sc.nextInt();
 			int t = sc.nextInt();
-			g.connect(s, t, 1);
+			g.connect(s, t, 1, 1);
 		}
 		return g;
 	}
@@ -28,8 +29,19 @@ public class HM2 {
 	public static void main(String[] args) throws FileNotFoundException {
 		HM2 hm2 = new HM2();
 		Graph g = hm2.construct(System.getProperty("user.dir") + "/src/hm/test.txt");
-		Utils.print(g.bfs(8, 7).recoverPath(7));
-//		g.print();
 
+
+		System.out.println(GraphOps.maxFlow(g, 0, 3));
+
+//		g.print();
+//
+//		Graph copy = new Graph(g);
+//
+//		Node n = p.nodePath(g).get(1);
+//		n.c = 10000;
+//
+//		g.print();
+//
+//		copy.print();
 	}
 }

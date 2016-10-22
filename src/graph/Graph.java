@@ -1,8 +1,6 @@
 package graph;
 
 import java.util.ArrayList;
-import java.util.LinkedList;
-import java.util.Queue;
 
 /**
  * Created by moises on 9/25/16.
@@ -19,6 +17,17 @@ public class Graph {
 			nodes[i] = new ArrayList<>();
 		}
 		N = capacity;
+	}
+
+	public Graph(Graph g) {
+		this.N = g.getSize();
+		nodes = new ArrayList[N];
+		for (int i = 0; i < N; i++) {
+			nodes[i] = new ArrayList<>();
+			for (Node n : g.adjacents(i)) {
+				nodes[i].add(new Node(n));
+			}
+		}
 	}
 
 	/**
@@ -38,9 +47,20 @@ public class Graph {
 	 * @param j
 	 * @param w
 	 */
-	public void connect(int i, int j, double w) {
+	public void connect(int i, int j, double w, double c) {
 		ArrayList<Node> adj = adjacents(i);
-		adj.add(new Node(j, w));
+		adj.add(new Node(j, w, c));
+	}
+
+	public void removeEdge(int i, int j) {
+		int idx = -1;
+		for (int k = 0; k < adjacents(i).size(); k++) {
+			if (adjacents(i).get(k).ID == j) {
+				idx = k;
+				break;
+			}
+		}
+		if (idx != -1) adjacents(i).remove(idx);
 	}
 
 	/**
@@ -60,43 +80,18 @@ public class Graph {
 		nodes[j] = adj;
 	}
 
+	public int size() {
+		return N;
+	}
 
-	public Path bfs(int i, int j) {
-		boolean[] visited = new boolean[N];
-		for (int k = 0; k < N; k++) {
-			Path path = _bfs(i, j, visited);
-			if (path != null) return path;
+	public Node findAdjacentNode(int i, int j) {
+		for (Node n : adjacents(i)) {
+			if (n.ID == j) return n;
 		}
 		return null;
 	}
 
-	private Path _bfs(int i, int j, boolean[] visited) {
-		Path path = new Path();
-		path.addToPath(i, i);
-		if (i == j) return path;
-		Queue<Integer> q = new LinkedList<>();
-		double[] distances = new double[N];
-		q.add(i);
-		while (!q.isEmpty()) {
-			int x = q.poll();
-			visited[x] = true;
-			for (Node n : adjacents(x)) {
-				if (!visited[n.ID]) {
-					distances[n.ID] += (distances[x] + n.w);
-					visited[n.ID] = true;
-					path.addToPath(x, n.ID);
-					if (n.ID == j) {
-						path.distance = distances[n.ID];
-						return path;
-					}
-					q.add(n.ID);
-				}
-			}
-		}
-		return path;
-	}
-
-	public int size() {
+	public int getSize() {
 		return N;
 	}
 
@@ -104,7 +99,7 @@ public class Graph {
 		ArrayList<Node> adj = adjacents(i);
 		StringBuffer str = new StringBuffer();
 		for (Node n : adj) {
-			str.append("(" + n.ID + ", " + n.w + ") -->");
+			str.append("(" + n.ID + ", " + n.w + "," + n.c + ") -->");
 		}
 		return str.toString();
 	}
@@ -113,29 +108,5 @@ public class Graph {
 		for (int i = 0; i < N; i++) {
 			System.out.println(i + " : " + printAdj(i));
 		}
-	}
-
-	public static void main(String[] args) {
-		Graph g = new Graph(8);
-		g.connect(0, 1, 1);
-		g.connect(1, 0, 1);
-		g.connect(1, 2, 1);
-		g.connect(2, 3, 1);
-		g.connect(2, 4, 1);
-		g.connect(3, 2, 1);
-//		g.connect(3, 7, 1);
-		g.connect(3, 5, 1);
-		g.connect(4, 5, 1);
-		g.connect(5, 4, 1);
-		g.connect(6, 7, 1);
-
-//		System.out.println(g.bfs(0, 1));
-//		System.out.println(g.bfs(0, 2));
-//		System.out.println(g.bfs(0, 6));
-		System.out.println(g.bfs(6, 7));
-//		System.out.println(g.bfs(3, 1));
-//		System.out.println(g.bfs(1, 7));
-//		System.out.println(g.bfs(2, 7));
-//		System.out.println(g.bfs(2, 7));
 	}
 }

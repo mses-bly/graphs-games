@@ -1,6 +1,7 @@
 package hm;
 
 import graph.Graph;
+import graph.GraphOps;
 
 import java.io.BufferedWriter;
 import java.io.FileWriter;
@@ -52,7 +53,7 @@ public class HM1 {
 				if (i != j) {
 					//If p is very high, we want to connect most of the times.
 					if (r.nextDouble() <= p)
-						g.connect(i, j, 1);
+						g.connect(i, j, 1, 1);
 				}
 			}
 		}
@@ -66,7 +67,7 @@ public class HM1 {
 		for (int t = 0; t < times; t++) {
 			int i = r.nextInt(N);
 			int j = r.nextInt(N);
-			double d = g.bfs(i, j).distance;
+			double d = GraphOps.bfs(g, i, j).distance;
 			if (debug) {
 				appendToFile(i, j, d);
 			}

@@ -7,30 +7,69 @@ import java.util.HashMap;
  * Created by moises on 10/20/16.
  */
 public class Path {
-	public double distance = 0;
-	private HashMap<Integer, Integer> path = new HashMap<>();
+	public double distance;
+	public int source, sink;
 
-	public void addToPath(int parent, int child) {
-		path.put(child, parent);
+	private HashMap<Integer, Integer> path = new HashMap<>();
+	ArrayList<Integer> listPath = null;
+	ArrayList<Node> nodePath = null;
+
+	public Path(int source, int sink) {
+		this.source = source;
+		this.sink = sink;
+		this.distance = 0;
 	}
 
-	public ArrayList<Integer> recoverPath(int dest) {
-		ArrayList<Integer> p = new ArrayList<Integer>();
-		if (path.isEmpty()) return null;
+	public Path(int source, int sink, double distance) {
+		this.source = source;
+		this.sink = sink;
+		this.distance = distance;
+	}
 
-		int child = dest;
+	public void addToPath(int parent, int child, double w) {
+		path.put(child, parent);
+		distance += w;
+	}
+
+	public ArrayList<Integer> listPath() {
+		if (listPath != null) return listPath;
+
+		if (path.isEmpty()) {
+			return null;
+		}
+
+		listPath = new ArrayList<Integer>();
+
+		int child = sink;
 		int parent = path.get(child);
 
-		p.add(0, child);
+		listPath.add(0, child);
 
 		//termination condition  is the starting node.
 		while (child != parent) {
-			p.add(0, parent);
+			listPath.add(0, parent);
 			child = parent;
 			parent = path.get(child);
 		}
-		return p;
+		return listPath;
 	}
 
+	public ArrayList<Node> nodePath(Graph g) {
+		if (nodePath != null) return nodePath;
+		listPath();
+		if (listPath == null) {
+			return null;
+		}
+		nodePath = new ArrayList<Node>();
+		//The first one just gives an ID
+		nodePath.add(new Node(listPath.get(0), -1, -1));
+		for (int i = 1; i < listPath.size(); i++) {
+			nodePath.add(g.findAdjacentNode(listPath.get(i - 1), listPath.get(i)));
+		}
+		return nodePath;
+	}
 
+	public boolean exists(){
+		return !path.isEmpty();
+	}
 }
