@@ -47,8 +47,8 @@ public class HM2 {
 		double avg = 0;
 		for (int k = 0; k < times; k++) {
 			Random r = new Random(System.currentTimeMillis());
-			int i = r.nextInt(g.getSize());
-			int j = r.nextInt(g.getSize());
+			int i = r.nextInt(g.size());
+			int j = r.nextInt(g.size());
 			double res = GraphOps.maxFlow(g, i, j);
 //			System.out.println(i + ", " + j);
 			avg += res;
@@ -58,12 +58,16 @@ public class HM2 {
 
 	public static void main(String[] args) throws FileNotFoundException {
 		HM2 hm2 = new HM2();
-		Graph g = hm2.construct(System.getProperty("user.dir") + "/src/hm/facebook_combined.txt", true);
+		Graph g = hm2.construct(System.getProperty("user.dir") + "/src/hm/test.txt", true);
+
+		System.out.println(GraphOps.contagion(g, 2, 0.5).size());
 
 //		System.out.println(g.size());
 //		g.print();
-
-		System.out.println(run10C(g,10000));
+//		long t1 = System.currentTimeMillis();
+//		System.out.println(run10C(g,1000));
+//		long t2 = System.currentTimeMillis();
+//		System.out.println((t2 - t1) / (double) (60 * 1000));
 
 
 //		System.out.println(GraphOps.maxFlow(g, 0, 4038));

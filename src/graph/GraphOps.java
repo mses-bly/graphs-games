@@ -1,16 +1,14 @@
 package graph;
 
-import java.util.ArrayList;
-import java.util.LinkedList;
-import java.util.Queue;
+import java.util.*;
 
 /**
  * Created by moises on 10/22/16.
  */
 public class GraphOps {
 	public static Path bfs(Graph g, int i, int j) {
-		boolean[] visited = new boolean[g.getSize()];
-		for (int k = 0; k < g.getSize(); k++) {
+		boolean[] visited = new boolean[g.size()];
+		for (int k = 0; k < g.size(); k++) {
 			Path path = _bfs(g, i, j, visited);
 			if (path.exists()) return path;
 		}
@@ -22,7 +20,7 @@ public class GraphOps {
 		path.addToPath(i, i, 0);
 		if (i == j) return path;
 		Queue<Integer> q = new LinkedList<>();
-		double[] distances = new double[g.getSize()];
+		double[] distances = new double[g.size()];
 		q.add(i);
 		while (!q.isEmpty()) {
 			int x = q.poll();
@@ -89,5 +87,38 @@ public class GraphOps {
 
 
 		return -1;
+	}
+
+	/**
+	 * @param g: the graph to study.
+	 * @param S: the number of early adopters. In this case, they will be randomly chosen.
+	 * @param q: the contagion threshold.
+	 */
+	public static HashSet<Integer> contagion(Graph g, int S, double q) {
+		Random r = new Random(System.currentTimeMillis());
+
+		HashSet<Integer> infected = new HashSet<>();
+		boolean[] visited = new boolean[g.size()];
+		Queue<Integer> queue = new LinkedList<>();
+
+		for (int i = 0; i < S; i++) {
+			int adopter = r.nextInt(g.size());
+			infected.add(adopter);
+			queue.add(adopter);
+		}
+
+		while (!queue.isEmpty()) {
+			int x = queue.poll();
+			visited[x] = true;
+
+			//make infection decision
+			int infectedCount = 0;
+			for (Node n : g.adjacents(x)) {
+				if (infected.contains(n.ID)) infectedCount++;
+				if (!visited[n.ID]) queue.add(n.ID);
+			}
+			if (infectedCount / (double) (g.adjacents(x).size()) >= q) infected.add(x);
+		}
+		return infected;
 	}
 }

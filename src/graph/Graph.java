@@ -20,7 +20,7 @@ public class Graph {
 	}
 
 	public Graph(Graph g) {
-		this.N = g.getSize();
+		this.N = g.size();
 		nodes = new ArrayList[N];
 		for (int i = 0; i < N; i++) {
 			nodes[i] = new ArrayList<>();
@@ -89,10 +89,6 @@ public class Graph {
 			if (n.ID == j) return n;
 		}
 		return null;
-	}
-
-	public int getSize() {
-		return N;
 	}
 
 	private String printAdj(int i) {
