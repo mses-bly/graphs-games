@@ -45,11 +45,12 @@ public class GraphOps {
 
 	// Finds the max flow using Ford-Fulkerson algorithm.
 	public static double maxFlow(Graph g, int source, int sink) {
+		Graph residual = new Graph(g);
 		double maxF = 0;
-		double it = mfIteration(g, source, sink);
-		while(it != -1){
+		double it = mfIteration(residual, source, sink);
+		while (it != -1) {
 			maxF += it;
-			it = mfIteration(g, source, sink);
+			it = mfIteration(residual, source, sink);
 		}
 		return maxF;
 	}
@@ -58,6 +59,7 @@ public class GraphOps {
 		Path p = bfs(g, source, sink);
 		if (p != null && p.exists()) {
 			ArrayList<Node> path = p.nodePath(g);
+
 
 			double minC = Double.MAX_VALUE;
 

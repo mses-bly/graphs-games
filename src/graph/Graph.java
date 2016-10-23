@@ -70,13 +70,13 @@ public class Graph {
 	 * @param j
 	 * @param w
 	 */
-	public void connectUnd(int i, int j, double w) {
+	public void connectUnd(int i, int j, double w, double c) {
 		ArrayList<Node> adj = adjacents(i);
-		adj.add(new Node(j, w));
+		adj.add(new Node(j, w, c));
 		nodes[i] = adj;
 
 		adj = adjacents(j);
-		adj.add(new Node(i, w));
+		adj.add(new Node(i, w, c));
 		nodes[j] = adj;
 	}
 

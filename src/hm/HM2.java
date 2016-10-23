@@ -5,6 +5,7 @@ import graph.GraphOps;
 
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.util.Random;
 import java.util.Scanner;
 
 /**
@@ -26,24 +27,47 @@ public class HM2 {
 		return g;
 	}
 
-	private Graph construct(String filename) throws FileNotFoundException {
+
+	private Graph construct(String filename, boolean undirected) throws FileNotFoundException {
 		sc = new Scanner(new File(filename));
 		int N = sc.nextInt();
 		Graph g = new Graph(N);
 		while (sc.hasNext()) {
 			int s = sc.nextInt();
 			int t = sc.nextInt();
-			g.connect(s, t, 1, 1);
+			if (undirected)
+				g.connectUnd(s, t, 1, 1);
+			else
+				g.connect(s, t, 1, 1);
 		}
 		return g;
 	}
 
+	public static double run10C(Graph g, int times) {
+		double avg = 0;
+		for (int k = 0; k < times; k++) {
+			Random r = new Random(System.currentTimeMillis());
+			int i = r.nextInt(g.getSize());
+			int j = r.nextInt(g.getSize());
+			double res = GraphOps.maxFlow(g, i, j);
+//			System.out.println(i + ", " + j);
+			avg += res;
+		}
+		return avg / times;
+	}
+
 	public static void main(String[] args) throws FileNotFoundException {
 		HM2 hm2 = new HM2();
-		Graph g = hm2.constructWithCapacity(System.getProperty("user.dir") + "/src/hm/test.txt");
+		Graph g = hm2.construct(System.getProperty("user.dir") + "/src/hm/facebook_combined.txt", true);
+
+//		System.out.println(g.size());
+//		g.print();
+
+		System.out.println(run10C(g,10000));
 
 
-		System.out.println(GraphOps.maxFlow(g, 0, 5));
+//		System.out.println(GraphOps.maxFlow(g, 0, 4038));
+//		System.out.println(GraphOps.maxFlow(g, 0, 4038));
 
 //		g.print();
 //
