@@ -58,7 +58,6 @@ public class GraphOps {
 		if (p != null && p.exists()) {
 			ArrayList<Node> path = p.nodePath(g);
 
-
 			double minC = Double.MAX_VALUE;
 
 			//find min flow
@@ -84,9 +83,55 @@ public class GraphOps {
 			}
 			return minC;
 		}
-
-
 		return -1;
+	}
+
+	public static HashSet<Integer> contagion(Graph g, int S, double q) {
+		Random r = new Random(System.currentTimeMillis());
+		HashSet<Integer> infected = new HashSet<>();
+		for (int i = 0; i < S; i++) {
+			int adopter = r.nextInt(g.size());
+			infected.add(adopter);
+		}
+		while (true) {
+			HashSet<Integer> result = _contagion(g, infected, q);
+			if (result.size() > infected.size()) {
+				infected = result;
+			} else {
+				return infected;
+			}
+		}
+	}
+
+	public static HashSet<Integer> contagion(Graph g, int[] S, double q) {
+		HashSet<Integer> infected = new HashSet<>();
+		for (int i = 0; i < S.length; i++) {
+			int adopter = S[i];
+			infected.add(adopter);
+		}
+		while (true) {
+			HashSet<Integer> result = _contagion(g, infected, q);
+			if (result.size() > infected.size()) {
+				infected = result;
+			} else {
+				return infected;
+			}
+		}
+	}
+
+	public static HashSet<Integer> contagion(Graph g, HashSet<Integer> S, double q) {
+		HashSet<Integer> infected = new HashSet<>();
+		for (int adopter : S) {
+			infected.add(adopter);
+		}
+		while (true) {
+			HashSet<Integer> result = _contagion(g, infected, q);
+			if (result.size() > infected.size()) {
+				infected = result;
+			} else {
+				return infected;
+			}
+		}
 	}
 
 	/**
@@ -94,16 +139,12 @@ public class GraphOps {
 	 * @param S: the number of early adopters. In this case, they will be randomly chosen.
 	 * @param q: the contagion threshold.
 	 */
-	public static HashSet<Integer> contagion(Graph g, int S, double q) {
-		Random r = new Random(System.currentTimeMillis());
-
-		HashSet<Integer> infected = new HashSet<>();
+	private static HashSet<Integer> _contagion(Graph g, HashSet<Integer> S, double q) {
+		HashSet<Integer> infected = new HashSet<>(S);
 		boolean[] visited = new boolean[g.size()];
 		Queue<Integer> queue = new LinkedList<>();
 
-		for (int i = 0; i < S; i++) {
-			int adopter = r.nextInt(g.size());
-			infected.add(adopter);
+		for (int adopter : infected) {
 			queue.add(adopter);
 		}
 

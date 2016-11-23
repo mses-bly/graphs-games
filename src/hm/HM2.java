@@ -1,10 +1,12 @@
 package hm;
 
+import graph.Adopters;
 import graph.Graph;
 import graph.GraphOps;
 
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.util.HashSet;
 import java.util.Random;
 import java.util.Scanner;
 
@@ -85,7 +87,16 @@ public class HM2 {
 	public static void main(String[] args) throws FileNotFoundException {
 		HM2 hm2 = new HM2();
 		Graph g = hm2.construct(System.getProperty("user.dir") + "/src/hm/facebook_combined.txt", true);
-		hm2.run12c(g);
+//		g.print();
+		Adopters A = new Adopters(g, 0.3);
+		System.out.println(A.earlyAdopters().size());
+
+//		HashSet<Integer> S = new HashSet<>();
+//		S.add(1);
+//		S.add(0);
+//
+//		int[] s = {1, 0};
+//		System.out.println(GraphOps.contagion(g, s, 0.5));
 
 	}
 }
