@@ -7,7 +7,7 @@ import java.util.ArrayList;
  */
 
 public class Matching {
-	ArrayList<Match> matches;
+	private ArrayList<Match> matches;
 
 	public class Match {
 		private int i, j;
@@ -24,5 +24,24 @@ public class Matching {
 
 	public void addMatch(int i, int j) {
 		matches.add(new Match(i, j));
+	}
+
+	public int size() {
+		return matches.size();
+	}
+
+	public boolean isMaximum(int nPairs) {
+		return size() == nPairs;
+	}
+
+	@Override
+	public String toString() {
+		StringBuffer sb = new StringBuffer();
+		sb.append("(");
+		for (Match m : matches) {
+			sb.append("[" + m.i + "-" + m.j + "]");
+		}
+		sb.append(")");
+		return sb.toString();
 	}
 }

@@ -2,6 +2,8 @@ package graph;
 
 import java.util.ArrayList;
 
+import static graph.GraphOps.bfs;
+
 /**
  * Created by moises on 11/21/16.
  */
@@ -29,22 +31,19 @@ public class BiPartiteOps {
 	public static Matching maxMatching(Graph bipartite) {
 		// Create a copy that sets every edge to 1
 		Graph residual = getDag(bipartite);
-		return null;
+		Matching m = new Matching();
+		Path it = matchingIteration(residual, 0, residual.size() - 1);
+		while (it != null) {
+			ArrayList<Integer> path = it.listPath();
+			m.addMatch(
+					path.subList(1, path.size() - 1).get(0),
+					path.subList(1, path.size() - 1).get(1)
+			);
+			it = matchingIteration(residual, 0, residual.size() - 1);
+		}
+		return m;
 	}
 
-
-	// Finds the max flow using Ford-Fulkerson algorithm.
-//	public static double maxFlow(Graph g, int source, int sink) {
-//		Graph residual = new Graph(g);
-//		double maxF = 0;
-//		double it = mfIteration(residual, source, sink);
-//		while (it != -1) {
-//			maxF += it;
-//			it = mfIteration(residual, source, sink);
-//		}
-//		return maxF;
-//	}
-//
 	private static Path matchingIteration(Graph g, int source, int sink) {
 		Path p = bfs(g, source, sink);
 		if (p != null && p.exists()) {

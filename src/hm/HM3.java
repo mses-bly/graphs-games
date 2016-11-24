@@ -3,6 +3,7 @@ package hm;
 import graph.Adopters;
 import graph.BiPartiteOps;
 import graph.Graph;
+import graph.Matching;
 
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -32,7 +33,8 @@ public class HM3 {
 		Graph g = hm3.constructWithCapacity(System.getProperty("user.dir") + "/src/hm/bipartite_1.txt");
 		g.print();
 
-		BiPartiteOps.maxMatching(g);
+		Matching m = BiPartiteOps.maxMatching(g);
+		System.out.println(m);
 	}
 
 }

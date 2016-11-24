@@ -63,6 +63,23 @@ public class Graph {
 		if (idx != -1) adjacents(i).remove(idx);
 	}
 
+	public void removeExcept(int i, int j) {
+		for (Node n : adjacents(i)) {
+			if (n.ID != j) {
+				removeEdge(i, n.ID);
+			}
+		}
+	}
+
+	public void removeExceptUnd(int i, int j) {
+		for (Node n : adjacents(i)) {
+			if (n.ID != j) {
+				removeEdge(i, n.ID);
+				removeEdge(n.ID, i);
+			}
+		}
+	}
+
 	/**
 	 * Connects node i -> j and j-> i
 	 *
