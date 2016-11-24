@@ -64,19 +64,27 @@ public class Graph {
 	}
 
 	public void removeExcept(int i, int j) {
+		ArrayList<Integer> delete = new ArrayList<>();
 		for (Node n : adjacents(i)) {
 			if (n.ID != j) {
-				removeEdge(i, n.ID);
+				delete.add(n.ID);
 			}
+		}
+		for (int d : delete) {
+			removeEdge(i, d);
 		}
 	}
 
 	public void removeExceptUnd(int i, int j) {
+		ArrayList<Integer> delete = new ArrayList<>();
 		for (Node n : adjacents(i)) {
 			if (n.ID != j) {
-				removeEdge(i, n.ID);
-				removeEdge(n.ID, i);
+				delete.add(n.ID);
 			}
+		}
+		for (int d : delete) {
+			removeEdge(i, d);
+			removeEdge(d, i);
 		}
 	}
 

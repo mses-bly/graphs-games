@@ -7,10 +7,10 @@ import java.util.ArrayList;
  */
 
 public class Matching {
-	private ArrayList<Match> matches;
+	protected ArrayList<Match> matches;
 
 	public class Match {
-		private int i, j;
+		protected int i, j;
 
 		public Match(int i, int j) {
 			this.i = i;
