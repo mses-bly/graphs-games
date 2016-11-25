@@ -2,57 +2,27 @@ package hm;
 
 import graph.Graph;
 import graph.Market;
+import graph.MarketFrame;
 
-import java.io.File;
 import java.io.FileNotFoundException;
-import java.util.HashMap;
-import java.util.Scanner;
 
 /**
  * Created by moises on 11/23/16.
  */
 public class HM3 {
-	private Scanner sc;
+	private static void run_10_a() throws FileNotFoundException {
+		// Construct the market graph.
+		Graph g = MarketFrame.constructMarket(System.getProperty("user.dir") + "/src/hm/market_7.3.txt");
+		MarketFrame.maxMatching(g);
+		System.out.println(MarketFrame.maxMatching(g));
 
 
-	private Market constructMarket(String filename) throws FileNotFoundException {
-		sc = new Scanner(new File(filename));
-		int N = sc.nextInt();
-		Graph g = new Graph(N);
-		HashMap<Integer, Double> sellerPrices = new HashMap<>();
-		// Number of sellers prices to read.
-		int S = sc.nextInt();
-		while (S > 0) {
-			int s = sc.nextInt();
-			double p = sc.nextDouble();
-			sellerPrices.put(s, p);
-			S--;
-		}
-		while (sc.hasNext()) {
-			int s = sc.nextInt();
-			int t = sc.nextInt();
-			int c = sc.nextInt();
-			g.connect(s, t, 1, c);
-		}
-		Market market = new Market(g, sellerPrices);
-		return market;
-	}
-
-	private Graph constructWithCapacity(String filename) throws FileNotFoundException {
-		sc = new Scanner(new File(filename));
-		int N = sc.nextInt();
-		Graph g = new Graph(N);
-		while (sc.hasNext()) {
-			int s = sc.nextInt();
-			int t = sc.nextInt();
-			int c = sc.nextInt();
-			g.connect(s, t, 1, c);
-		}
-		return g;
 	}
 
 	public static void main(String[] args) throws FileNotFoundException {
-		HM3 hm3 = new HM3();
+		run_10_a();
+
+
 //		Graph g = hm3.constructWithCapacity(System.getProperty("user.dir") + "/src/hm/bipartite_1.txt");
 //		g.print();
 //
@@ -60,13 +30,13 @@ public class HM3 {
 //		System.out.println(m);
 
 
-//		Market m = hm3.constructMarket(System.getProperty("user.dir") + "/src/hm/market_clearing.txt");
+//		Market m = hm3.constructMarket(System.getProperty("user.dir") + "/src/hm/market_7.3.txt");
 //		System.out.println(m.findMarketEquilibrium());
 //		System.out.println("Done");
 //
-		Market m = hm3.constructMarket(System.getProperty("user.dir") + "/src/hm/market_clearing.txt");
+//		Market m = hm3.constructMarket(System.getProperty("user.dir") + "/src/hm/market_7.3.txt");
 
-		System.out.println(m.VCGClark());
+//		System.out.println(m.VCGClark());
 
 	}
 
