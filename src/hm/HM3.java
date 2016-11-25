@@ -62,9 +62,13 @@ public class HM3 {
 //		System.out.println(m);
 
 
+//		Market m = hm3.constructMarket(System.getProperty("user.dir") + "/src/hm/market_clearing.txt");
+//		System.out.println(m.findMarketEquilibrium());
+//		System.out.println("Done");
+//
 		Market m = hm3.constructMarket(System.getProperty("user.dir") + "/src/hm/market_clearing.txt");
-		System.out.println(m.findMarketEquilibrium());
-		System.out.println("Done");
+
+		System.out.println(m.VCGClark());
 
 	}
 

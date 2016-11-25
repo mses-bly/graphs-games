@@ -88,6 +88,10 @@ public class Graph {
 		}
 	}
 
+	public void disconnectNode(int i){
+		this.nodes[i].clear();
+	}
+
 	/**
 	 * Connects node i -> j and j-> i
 	 *
