@@ -187,6 +187,17 @@ public class MarketFrame {
 		return pairs;
 	}
 
+
+	private static ArrayList<Integer> highDemand(Matching m, Graph preferredG) {
+		ArrayList<Integer> highDemandNodes = new ArrayList<>();
+		for (Matching.Match match : m.matches) {
+			int degree = preferredG.undirectedDegree(match.j);
+			// Have to account for the sink node.
+			if (degree - 1 > 1) highDemandNodes.add(match.j);
+		}
+		return highDemandNodes;
+	}
+
 	/**
 	 * Computes the social optimum in a market starting with some seller prices.
 	 *
@@ -201,9 +212,8 @@ public class MarketFrame {
 		Graph preferredGraph = preferredSellerGraph(market, tmpPrices);
 		Matching matching = maxMatching(preferredGraph);
 		while (!matching.isMaximum(bipartitePairs(preferredGraph))) {
-			preferredGraph.print();
-			for (Matching.Match m : matching.matches) {
-				tmpPrices.put(m.j, tmpPrices.get(m.j) + 1);
+			for (int highDemandSeller : highDemand(matching, preferredGraph)) {
+				tmpPrices.put(highDemandSeller, tmpPrices.get(highDemandSeller) + 1);
 			}
 			boolean gtZero = true;
 			for (Map.Entry<Integer, Double> entry : tmpPrices.entrySet()) {

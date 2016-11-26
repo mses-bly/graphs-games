@@ -130,7 +130,7 @@ public class HM3 {
 
 
 	public static void main(String[] args) throws FileNotFoundException {
-		run_10_b();
+		run_11_b();
 	}
 
 }

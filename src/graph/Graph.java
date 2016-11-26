@@ -88,7 +88,7 @@ public class Graph {
 		}
 	}
 
-	public void disconnectNode(int i){
+	public void disconnectNode(int i) {
 		this.nodes[i].clear();
 	}
 
@@ -107,6 +107,17 @@ public class Graph {
 		adj = adjacents(j);
 		adj.add(new Node(i, w, c));
 		nodes[j] = adj;
+	}
+
+	/**
+	 * Gets the number of incoming edges to a node. This method  only work
+	 * for undirected graphs.
+	 *
+	 * @param node
+	 * @return
+	 */
+	public int undirectedDegree(int node) {
+		return nodes[node].size();
 	}
 
 	public int size() {
